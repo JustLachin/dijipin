@@ -7,6 +7,8 @@
     <meta property="og:title" content="Lachin Eke - Bağış Sayfası">
     <meta property="og:description" content="Lachin Eke'yi desteklemek için bağış yapın">
     <meta property="og:image" content="logo.png">
+    <meta name="dijipin:integration" content="donation-page">
+    <meta name="dijipin:streamer" content="Lachin Eke">
     <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://dijipin.com">
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://dijipin.com https://*.dijipin.com">
     <title>Lachin Eke - Bağış Sayfası</title>
@@ -15,7 +17,7 @@
         :root {
             --primary-color: #ff3366;
             --secondary-color: #6c63ff;
-            --background: #0a0a0a;
+            --background: transparent;
             --text-color: #ffffff;
         }
 
@@ -33,13 +35,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
-            padding: 20px;
+            max-width: 600px;
+            padding: 10px;
             perspective: 1000px;
         }
 
@@ -47,10 +49,10 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px;
+            padding: 20px;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
-            box-shadow: 0 0 20px rgba(var(--primary-color), 0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
 
         .profile-section {
@@ -78,67 +80,54 @@
         }
 
         .donation-form {
-            transform: translateZ(30px);
+            transform: none;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             color: var(--text-color);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
+            font-size: 14px;
         }
 
         .amount-buttons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .amount-btn {
-            padding: 10px;
+            padding: 8px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
-        .amount-btn:hover {
+        .amount-btn:hover, .amount-btn.active {
             background: var(--primary-color);
-            transform: translateY(-2px);
         }
 
         .submit-btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: none;
-            border-radius: 10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px;
+            background: var(--primary-color);
             color: white;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(var(--primary-color), 0.4);
         }
 
         @keyframes float {
@@ -158,11 +147,11 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: 5px;
             }
 
             .donation-card {
-                padding: 20px;
+                padding: 15px;
             }
 
             .profile-image {
@@ -372,7 +361,7 @@
             // Send data to parent (dijipin.com)
             if (window.self !== window.top) {
                 window.parent.postMessage({
-                    type: 'DONATION_REQUEST',
+                    type: 'DIJIPIN_DONATION',
                     data: {
                         displayName,
                         message,

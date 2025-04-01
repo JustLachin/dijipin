@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lachin Eke - Bağış</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-image">
+                <img src="assets/logo.png" alt="Lachin Eke">
+            </div>
+            <h1>Lachin Eke</h1>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+
+        <div class="donation-form">
+            <div class="glass-panel">
+                <h2>Bağış Yap</h2>
+                <form id="donationForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="İsminiz" required>
+                        <div class="input-effect"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Mesajınız" required></textarea>
+                        <div class="input-effect"></div>
+                    </div>
+
+                    <div class="amount-section">
+                        <div class="amount-input">
+                            <input type="number" id="amount" min="1" value="1">
+                            <span class="currency">TL</span>
+                        </div>
+                        <div class="quick-amounts">
+                            <button type="button" data-amount="5">5 TL</button>
+                            <button type="button" data-amount="10">10 TL</button>
+                            <button type="button" data-amount="25">25 TL</button>
+                            <button type="button" data-amount="50">50 TL</button>
+                            <button type="button" data-amount="75">75 TL</button>
+                            <button type="button" data-amount="100">100 TL</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="donate-button">
+                        <span>Bağış Yap</span>
+                        <div class="button-effect"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="background-animation"></div>
+    <script src="js/main.js"></script>
+</body>
+</html> 

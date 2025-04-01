@@ -3,525 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lachin Eke - Bağış</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <meta name="description" content="Lachin Eke Bağış Sayfası - Yayıncı Destek">
+    <meta property="og:title" content="Lachin Eke - Bağış Sayfası">
+    <meta property="og:description" content="Lachin Eke'yi desteklemek için bağış yapın">
+    <meta property="og:image" content="logo.png">
+    <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://dijipin.com">
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://dijipin.com https://*.dijipin.com">
+    <title>Lachin Eke - Bağış Sayfası</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff1493;
-            --secondary-color: #00ffff;
-            --background-color: #0a0a0a;
+            --primary-color: #ff3366;
+            --secondary-color: #6c63ff;
+            --background: #0a0a0a;
             --text-color: #ffffff;
-            --glass-background: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-color);
+            background: var(--background);
             color: var(--text-color);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow-x: hidden;
         }
 
-        #background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .container {
             width: 100%;
-            height: 100%;
-            z-index: -1;
+            max-width: 1200px;
+            padding: 20px;
+            perspective: 1000px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
+        .donation-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            box-shadow: 0 0 20px rgba(var(--primary-color), 0.3);
         }
 
         .profile-section {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 30px;
+            transform: translateZ(50px);
         }
 
         .profile-image {
             width: 150px;
             height: 150px;
-            margin: 0 auto 1rem;
-            position: relative;
-            overflow: hidden;
             border-radius: 50%;
-            border: 3px solid var(--primary-color);
-            box-shadow: 0 0 20px var(--primary-color);
+            border: 4px solid var(--primary-color);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .streamer-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 10px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .donation-form {
+            transform: translateZ(30px);
         }
 
-        .social-icon {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            color: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        .embed-section {
-            margin-top: 2rem;
-            width: 100%;
-            background: var(--glass-background);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            padding-top: 56.25%;
-        }
-
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-        }
-
-        .video-frame {
-            flex: 1;
-            border: none;
-        }
-
-        .chat-frame {
-            width: 340px;
-            border: none;
-            border-left: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .close-chat {
-            position: absolute;
-            top: 10px;
-            right: 350px;
-            width: 30px;
-            height: 30px;
-            background: var(--glass-background);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-
-        .close-chat:hover {
-            background: var(--primary-color);
-        }
-
-        .close-chat svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--text-color);
-        }
-
-        .glass-panel {
-            background: var(--glass-background);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
+        .input-group {
+            margin-bottom: 20px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
         input:focus, textarea:focus {
-            outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 10px var(--primary-color);
+            outline: none;
         }
 
-        .amount-section {
-            margin-bottom: 2rem;
-        }
-
-        .amount-input {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-
-        .currency {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-color);
-        }
-
-        .quick-amounts {
+        .amount-buttons {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .quick-amounts button {
-            background: var(--glass-background);
-            border: 1px solid var(--glass-border);
+        .amount-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
-            padding: 0.5rem;
-            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .quick-amounts button:hover {
+        .amount-btn:hover {
             background: var(--primary-color);
             transform: translateY(-2px);
         }
 
-        .donate-button {
+        .submit-btn {
             width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 15px;
             border: none;
             border-radius: 10px;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
             transition: all 0.3s ease;
         }
 
-        .donate-button:hover {
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            box-shadow: 0 5px 15px rgba(var(--primary-color), 0.4);
         }
 
-        .button-effect {
-            position: absolute;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .particles {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transform: translateX(-100%);
-        }
-
-        .donate-button:hover .button-effect {
-            transform: translateX(100%);
-            transition: transform 0.5s ease;
-        }
-
-        @media (max-width: 1024px) {
-            .chat-frame {
-                width: 300px;
-            }
-            
-            .close-chat {
-                right: 310px;
-            }
+            pointer-events: none;
+            z-index: -1;
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
-            }
-            
-            .quick-amounts {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            h1 {
-                font-size: 2rem;
+                padding: 10px;
             }
 
-            .video-container {
-                flex-direction: column;
+            .donation-card {
+                padding: 20px;
             }
-            
-            .chat-frame {
-                width: 100%;
-                height: 400px;
-                border-left: none;
-                border-top: 1px solid var(--glass-border);
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
             }
-            
-            .close-chat {
-                right: 10px;
-                top: calc(56.25% - 40px);
-            }
-            
-            .embed-section {
-                padding-top: calc(56.25% + 400px);
-            }
+        }
+
+        /* Optimize for iframe embedding */
+        html.in-iframe body {
+            background: transparent !important;
+            overflow: hidden;
+        }
+        
+        html.in-iframe .container {
+            padding: 10px;
+            height: 100vh;
+        }
+        
+        html.in-iframe .donation-card {
+            margin: 0;
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+        }
+
+        /* Payment processing styles */
+        .payment-processing {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .payment-processing.active {
+            display: flex;
+        }
+
+        .processing-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .processing-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--primary-color);
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 <body>
+    <script>
+        // Check if page is in iframe and handle parent communication
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('in-iframe');
+            
+            // Listen for messages from dijipin.com
+            window.addEventListener('message', function(event) {
+                if (event.origin === 'https://dijipin.com') {
+                    handleDijipinMessage(event.data);
+                }
+            });
+        }
+
+        // Handle messages from dijipin.com
+        function handleDijipinMessage(data) {
+            if (data.type === 'PAYMENT_SUCCESS') {
+                showToast('Bağış başarıyla gönderildi!');
+                resetForm();
+            } else if (data.type === 'PAYMENT_ERROR') {
+                showToast('Bağış işlemi başarısız oldu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Reset form after successful payment
+        function resetForm() {
+            document.getElementById('displayName').value = '';
+            document.getElementById('message').value = '';
+            document.getElementById('customAmount').value = '';
+            document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+        }
+    </script>
+    <div class="particles" id="particles"></div>
     <div class="container">
-        <div class="profile-section">
-            <div class="profile-image">
-                <img src="logo.png" alt="Lachin Eke">
+        <div class="donation-card" id="donationCard">
+            <div class="profile-section">
+                <img src="logo.png" alt="Lachin Eke" class="profile-image">
+                <h1 class="streamer-name">Lachin Eke</h1>
             </div>
-            <h1>Lachin Eke</h1>
-            <div class="social-links">
-                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitch"></i></a>
-            </div>
-        </div>
-
-        <!-- Embed Section -->
-        <div class="embed-section">
-            <div class="video-container">
-                <iframe 
-                    class="video-frame"
-                    src="https://www.youtube.com/embed/live_stream?channel=CHANNEL_ID" 
-                    frameborder="0" 
-                    allowfullscreen>
-                </iframe>
-                <iframe 
-                    class="chat-frame"
-                    src="https://www.youtube.com/live_chat?v=VIDEO_ID&embed_domain=yourdomain.com">
-                </iframe>
-                <button class="close-chat">
-                    <svg viewBox="0 0 20 20">
-                        <path d="M4 16V4H2v12h2zM13 15l-1.5-1.5L14 11H6V9h8l-2.5-2.5L13 5l5 5-5 5z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="donation-form">
-            <div class="glass-panel">
-                <h2>Bağış Yap</h2>
-                <form id="donationForm">
-                    <div class="form-group">
-                        <input type="text" id="name" placeholder="İsminiz" required>
-                        <div class="input-effect"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <textarea id="message" placeholder="Mesajınız" required></textarea>
-                        <div class="input-effect"></div>
-                    </div>
-
-                    <div class="amount-section">
-                        <div class="amount-input">
-                            <input type="number" id="amount" min="1" value="1">
-                            <span class="currency">TL</span>
-                        </div>
-                        <div class="quick-amounts">
-                            <button type="button" data-amount="5">5 TL</button>
-                            <button type="button" data-amount="10">10 TL</button>
-                            <button type="button" data-amount="25">25 TL</button>
-                            <button type="button" data-amount="50">50 TL</button>
-                            <button type="button" data-amount="75">75 TL</button>
-                            <button type="button" data-amount="100">100 TL</button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="donate-button">
-                        <span>Bağış Yap</span>
-                        <div class="button-effect"></div>
-                    </button>
-                </form>
+            <div class="donation-form">
+                <div class="input-group">
+                    <input type="text" placeholder="Ekranda görünecek isim" id="displayName">
+                </div>
+                <div class="input-group">
+                    <textarea placeholder="İletmek istenilen mesaj" id="message" rows="3"></textarea>
+                </div>
+                <div class="amount-buttons">
+                    <button class="amount-btn" data-amount="5">5 TL</button>
+                    <button class="amount-btn" data-amount="10">10 TL</button>
+                    <button class="amount-btn" data-amount="25">25 TL</button>
+                    <button class="amount-btn" data-amount="50">50 TL</button>
+                    <button class="amount-btn" data-amount="75">75 TL</button>
+                    <button class="amount-btn" data-amount="100">100 TL</button>
+                </div>
+                <div class="input-group">
+                    <input type="number" placeholder="Gönülden ne kopuyorsa" id="customAmount">
+                </div>
+                <button class="submit-btn">Bağış Yap</button>
             </div>
         </div>
     </div>
 
-    <div id="background-animation"></div>
+    <div class="payment-processing" id="paymentProcessing">
+        <div class="processing-content">
+            <div class="processing-spinner"></div>
+            <p>Bağış işleminiz gerçekleştiriliyor...</p>
+        </div>
+    </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Three.js Background Animation
-        const initThreeJS = () => {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('background-animation').appendChild(renderer.domElement);
+        // 3D card effect
+        const card = document.getElementById('donationCard');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
 
-            // Create particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1000;
-            const posArray = new Float32Array(particlesCount * 3);
+        // Amount button handling
+        const amountButtons = document.querySelectorAll('.amount-btn');
+        const customAmountInput = document.getElementById('customAmount');
 
-            for (let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 5;
+        amountButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const amount = btn.dataset.amount;
+                customAmountInput.value = amount;
+                amountButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Handle form submission
+        document.querySelector('.submit-btn').addEventListener('click', function() {
+            const displayName = document.getElementById('displayName').value;
+            const message = document.getElementById('message').value;
+            const amount = document.getElementById('customAmount').value;
+
+            if (!displayName || !amount) {
+                showToast('Lütfen isim ve bağış miktarı giriniz.');
+                return;
             }
 
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            // Show processing overlay
+            document.getElementById('paymentProcessing').classList.add('active');
 
-            // Create material
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.005,
-                color: '#ff1493',
-                transparent: true,
-                opacity: 0.8,
-                blending: THREE.AdditiveBlending
-            });
+            // Send data to parent (dijipin.com)
+            if (window.self !== window.top) {
+                window.parent.postMessage({
+                    type: 'DONATION_REQUEST',
+                    data: {
+                        displayName,
+                        message,
+                        amount: parseFloat(amount)
+                    }
+                }, 'https://dijipin.com');
+            }
 
-            // Create mesh
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
+            // Hide processing overlay after 3 seconds (simulated response time)
+            setTimeout(() => {
+                document.getElementById('paymentProcessing').classList.remove('active');
+            }, 3000);
+        });
 
-            camera.position.z = 2;
-
-            // Mouse movement effect
-            let mouseX = 0;
-            let mouseY = 0;
-
-            document.addEventListener('mousemove', (event) => {
-                mouseX = event.clientX / window.innerWidth - 0.5;
-                mouseY = event.clientY / window.innerHeight - 0.5;
-            });
-
-            // Animation
-            const animate = () => {
-                requestAnimationFrame(animate);
-
-                particlesMesh.rotation.x += 0.001;
-                particlesMesh.rotation.y += 0.001;
-
-                // Mouse effect
-                particlesMesh.rotation.x += mouseY * 0.1;
-                particlesMesh.rotation.y += mouseX * 0.1;
-
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
-        // Form Handling
-        const initForm = () => {
-            const form = document.getElementById('donationForm');
-            const amountInput = document.getElementById('amount');
-            const quickAmountButtons = document.querySelectorAll('.quick-amounts button');
-
-            // Quick amount buttons
-            quickAmountButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const amount = button.dataset.amount;
-                    amountInput.value = amount;
-                    
-                    // Remove active class from all buttons
-                    quickAmountButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    button.classList.add('active');
-                });
-            });
-
-            // Form submission
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const formData = {
-                    name: document.getElementById('name').value,
-                    message: document.getElementById('message').value,
-                    amount: amountInput.value
-                };
-
-                // Here you would typically send the data to your backend
-                console.log('Donation form submitted:', formData);
-                
-                // Show success message
-                alert('Teşekkürler! Bağışınız alındı.');
-                form.reset();
-            });
-        };
-
-        // Chat Toggle Functionality
-        const initChatToggle = () => {
-            const closeChat = document.querySelector('.close-chat');
-            const chatFrame = document.querySelector('.chat-frame');
-            const videoContainer = document.querySelector('.video-container');
-            
-            let isChatVisible = true;
-            
-            closeChat.addEventListener('click', () => {
-                isChatVisible = !isChatVisible;
-                
-                if (!isChatVisible) {
-                    chatFrame.style.display = 'none';
-                    closeChat.style.transform = 'rotate(180deg)';
-                    videoContainer.style.gridTemplateColumns = '1fr';
-                } else {
-                    chatFrame.style.display = 'block';
-                    closeChat.style.transform = 'rotate(0deg)';
-                    videoContainer.style.gridTemplateColumns = '1fr auto';
+        // Particles.js configuration
+        particlesJS('particles', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ff3366' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    out_mode: 'out'
                 }
-            });
-        };
-
-        // Initialize everything when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            initThreeJS();
-            initForm();
-            initChatToggle();
+            }
         });
     </script>
 </body>
-</html> 
+</html>
